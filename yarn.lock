@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@faker-js/faker@9.9.0":
+  version "9.9.0"
+  resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-9.9.0.tgz#3ad015fbbaaae7af3149555e0f22b4b30134c69d"
+  integrity sha512-OEl393iCOoo/z8bMezRlJu+GlRGlsKbUAN7jKB6LhnKoqKve5DXRpalbItIIcwnCjs1k/FOPjFzcA6Qn+H+YbA==
+
 "@playwright/test@^1.61.0":
   version "1.61.0"
   resolved "https://registry.npmjs.org/@playwright/test/-/test-1.61.0.tgz"
@@ -9,12 +14,17 @@
   dependencies:
     playwright "1.61.0"
 
-"@types/node@^25.9.4":
+"@types/node@^25.9.3":
   version "25.9.4"
-  resolved "https://registry.npmjs.org/@types/node/-/node-25.9.4.tgz"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-25.9.4.tgz#18b63c47f88c1fbbed9d55ea2b66ffd494a47001"
   integrity sha512-dszCsrKb5U7ZsVZBWiHFklTloVl0mSEnWH/iZXfZUlI4rzCUnsvGmgqfuVRHL54ugE7/wRuxEIXRa2iMZ+BG6g==
   dependencies:
     undici-types ">=7.24.0 <7.24.7"
+
+fsevents@2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
+  integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
 
 playwright-core@1.61.0:
   version "1.61.0"
