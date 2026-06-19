@@ -5,9 +5,7 @@ test('deve poder cadastrar uma nova tarefa', async ({ page }) => {
 
     const inputTaskName = page.locator('input[class*="InputNewTask"]')
     await inputTaskName.fill('ler Um livro de TypeScript')
-
-    const buttonNewTask = page.locator('button[type="submit"]')
-    await buttonNewTask.click()
+    await inputTaskName.press('Enter')
 
 });
 
