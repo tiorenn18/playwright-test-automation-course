@@ -79,7 +79,7 @@ test('deve poder deletar uma tarefa', async ({ page, request }) => {
     await deleteButtonsTask.last().click()
 });
 
-test.only('não deve permitir tarefa duplicada', async ({ page, request }) => {
+test('não deve permitir tarefa duplicada', async ({ page, request }) => {
     const taskJson: taskModel = {
         name: 'Teste Validado: não permite tarefa duplicada',
         is_done: false
