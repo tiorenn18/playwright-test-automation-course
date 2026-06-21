@@ -2,14 +2,12 @@ import { expect, test } from '@playwright/test';
 import { TaskModel } from './fixtures/task.model';
 import { deleteByTaskHelper, postTask } from './fixtures/support/helpers';
 import { TasksPage } from './fixtures/support/pages/tasks';
+import data from './fixtures/tasks.json'
 
 test('deve poder cadastrar uma nova tarefa utilizando Enter', async ({ page, request }) => {
-    const tasksPage: TasksPage = new TasksPage(page)
+    const task = data.createTaskWithEnterValidation as TaskModel
 
-    const task: TaskModel = {
-        name: 'Teste validado: cadastro de tarefa via tecla Enter',
-        is_done: false
-    }
+    const tasksPage: TasksPage = new TasksPage(page)
 
     await deleteByTaskHelper(request, task.name)
     await tasksPage.goTo()
@@ -18,12 +16,9 @@ test('deve poder cadastrar uma nova tarefa utilizando Enter', async ({ page, req
 });
 
 test('deve poder cadastrar uma nova tarefa utilizando o botão', async ({ page, request }) => {
-    const tasksPage: TasksPage = new TasksPage(page)
+    const task = data.createTaskWithButtonValidation as TaskModel
 
-    const task: TaskModel = {
-        name: 'Teste validado: cadastro de uma tarefa via botão',
-        is_done: false
-    }
+    const tasksPage: TasksPage = new TasksPage(page)
 
     await deleteByTaskHelper(request, task.name)
 
@@ -33,12 +28,9 @@ test('deve poder cadastrar uma nova tarefa utilizando o botão', async ({ page, 
 });
 
 test('deve poder riscar uma tarefa', async ({ page, request }) => {
-    const tasksPage: TasksPage = new TasksPage(page)
+    const task = data.completeTaskCheckboxValidation as TaskModel
 
-    const task: TaskModel = {
-        name: 'Teste validado: checkBox funcionando',
-        is_done: false
-    }
+    const tasksPage: TasksPage = new TasksPage(page)
 
     await deleteByTaskHelper(request, task.name)
 
@@ -49,12 +41,9 @@ test('deve poder riscar uma tarefa', async ({ page, request }) => {
 });
 
 test('deve poder deletar uma tarefa', async ({ page, request }) => {
-    const tasksPage: TasksPage = new TasksPage(page)
+    const task = data.deleteTaskUsingButtonValidation as TaskModel
 
-    const task: TaskModel = {
-        name: 'Teste validado: botão de deletar uma tarefa funcionando',
-        is_done: false
-    }
+    const tasksPage: TasksPage = new TasksPage(page)
 
     await deleteByTaskHelper(request, task.name)
 
@@ -65,12 +54,9 @@ test('deve poder deletar uma tarefa', async ({ page, request }) => {
 });
 
 test('não deve permitir tarefa duplicada', async ({ page, request }) => {
-    const tasksPage: TasksPage = new TasksPage(page)
+    const task = data.duplicate as TaskModel
 
-    const task: TaskModel = {
-        name: 'Teste Validado: não permite tarefa duplicada',
-        is_done: false
-    }
+    const tasksPage: TasksPage = new TasksPage(page)
 
     await deleteByTaskHelper(request, task.name)
     await postTask(request, task)
@@ -82,13 +68,9 @@ test('não deve permitir tarefa duplicada', async ({ page, request }) => {
 });
 
 test('campo Obrigatório', async ({ page }) => {
+    const task = data.required as TaskModel
+
     const tasksPage: TasksPage = new TasksPage(page)
-
-    const task: TaskModel = {
-        name: '',
-        is_done: false
-    }
-
     await tasksPage.goTo()
     await tasksPage.createTaskUsingButton(task)
 

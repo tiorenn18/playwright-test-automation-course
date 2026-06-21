@@ -1,0 +1,31 @@
+{
+    "createTaskWithEnterValidation": {
+        "name": "Teste validado: cadastro de tarefa via tecla Enter",
+        "is_done": false
+    },
+
+    "createTaskWithButtonValidation": {
+        "name": "Teste validado: cadastro de uma tarefa via botão",
+        "is_done": false
+    },
+
+    "completeTaskCheckboxValidation": {
+        "name": "Teste validado: checkBox funcionando",
+        "is_done": false
+    },
+
+    "deleteTaskUsingButtonValidation": {
+        "name": "Teste validado: botão de deletar uma tarefa funcionando",
+        "is_done": false
+    },
+
+    "duplicate": {
+        "name": "Teste Validado: não permite tarefa duplicada",
+        "is_done": false
+    },
+
+    "required": {
+        "name": "",
+        "is_done": false
+    }
+}
