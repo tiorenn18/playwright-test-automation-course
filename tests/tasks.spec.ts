@@ -1,6 +1,7 @@
-import { test, expect, request } from '@playwright/test';
+import { test, expect} from '@playwright/test';
 import { faker } from '@faker-js/faker';
-import { taskModel } from './fixtures/Task.model';
+import { taskModel } from './fixtures/task.model';
+import { deleteByTaskHelper, postTask } from './fixtures/support/helpers';
 
 test('deve poder cadastrar uma nova tarefa utilizando Enter', async ({ page, request }) => {
     const taskJson: taskModel = {
@@ -8,7 +9,7 @@ test('deve poder cadastrar uma nova tarefa utilizando Enter', async ({ page, req
         is_done: false
     }
 
-    await request.delete('http://localhost:3333/helper/tasks/' + taskJson.name)
+    await deleteByTaskHelper(request, taskJson.name)
 
     await page.goto('http://localhost:8080')
 
@@ -26,7 +27,7 @@ test('deve poder cadastrar uma nova tarefa utilizando o botão', async ({ page, 
         is_done: false
     }
 
-    await request.delete('http://localhost:3333/helper/tasks/' + taskJson.name)
+    await deleteByTaskHelper(request, taskJson.name)
     await page.goto('http://localhost:8080')
 
     const inputTaskName = page.locator('input[class*="InputNewTask"]')
@@ -44,7 +45,7 @@ test('deve poder riscar uma tarefa', async ({ page, request }) => {
         is_done: false
     }
 
-    await request.delete('http://localhost:3333/helper/tasks/' + taskJson.name)
+    await deleteByTaskHelper(request, taskJson.name)
     await page.goto('http://localhost:8080')
 
     const inputTaskName = page.locator('input[class*="InputNewTask"]')
@@ -64,7 +65,7 @@ test('deve poder deletar uma tarefa', async ({ page, request }) => {
         is_done: false
     }
 
-    await request.delete('http://localhost:3333/helper/tasks/' + taskJson.name)
+    await deleteByTaskHelper(request, taskJson.name)
     await page.goto('http://localhost:8080')
 
     const inputTaskName = page.locator('input[class*="InputNewTask"]')
@@ -85,10 +86,8 @@ test('não deve permitir tarefa duplicada', async ({ page, request }) => {
         is_done: false
     }
 
-    await request.delete('http://localhost:3333/helper/tasks/' + taskJson.name)
-
-    const newTask = await request.post('http://localhost:3333/tasks/', { data: taskJson })
-    expect(newTask.ok).toBeTruthy()
+    await deleteByTaskHelper(request, taskJson.name)
+    await postTask(request, taskJson)
 
     await page.goto('http://localhost:8080')
 
