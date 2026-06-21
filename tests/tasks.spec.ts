@@ -72,24 +72,28 @@ test('deve poder deletar uma tarefa', async ({ page, request }) => {
 
 });
 
-test('não deve permitir tarefa duplicada', async ({ page, request }) => {
-    const taskName = ('Teste Validado: não pode permitir tarefa duplicada')
+test.only('não deve permitir tarefa duplicada', async ({ page, request }) => {
+    const taskJson = {
+        name: 'Teste Validado: não permite tarefa duplicada',
+        is_done: false
+    }
 
-    await request.delete('http://localhost:3333/helper/tasks/' + taskName)
+    await request.delete('http://localhost:3333/helper/tasks/' + taskJson.name)
+
+    const newTask = await request.post('http://localhost:3333/tasks/', { data: taskJson })
+    expect(newTask.ok).toBeTruthy()
+
     await page.goto('http://localhost:8080')
 
-    const inputTaskName = page.locator('input[class*="InputNewTask"]')
-    await inputTaskName.fill(taskName)
-
-    await page.click('css=button >> text=Create')
-
-    const taskTarget = page.locator(`css=.task-item p >> text=${taskName}`)
+    const taskTarget = page.locator(`css=.task-item p >> text=${taskJson.name}`)
     await expect(taskTarget).toBeVisible()
 
-    await inputTaskName.fill(taskName)
+    const inputTaskName = page.locator('input[class*="InputNewTask"]')
+    await inputTaskName.fill(taskJson.name)
+
     await page.click('css=button >> text=Create')
 
     const target = page.locator('.swal2-html-container')
-
     await expect(target).toHaveText('Task already exists!')
-})
+    
+});
