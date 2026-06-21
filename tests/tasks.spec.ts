@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { TaskModel } from './fixtures/task.model';
 import { deleteByTaskHelper, postTask } from './fixtures/support/helpers';
 import { TasksPage } from './fixtures/support/pages/tasks';
@@ -80,3 +80,18 @@ test('não deve permitir tarefa duplicada', async ({ page, request }) => {
     await tasksPage.createTaskUsingButton(task)
     await tasksPage.alertHaveText('Task already exists!')
 });
+
+test('campo Obrigatório', async ({ page }) => {
+    const tasksPage: TasksPage = new TasksPage(page)
+
+    const task: TaskModel = {
+        name: '',
+        is_done: false
+    }
+
+    await tasksPage.goTo()
+    await tasksPage.createTaskUsingButton(task)
+
+    const validationMessage = await tasksPage.inputTaskName.evaluate(e => (e as HTMLInputElement).validationMessage)
+    expect(validationMessage).toEqual('This is a required field')
+})

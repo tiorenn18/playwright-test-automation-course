@@ -1,11 +1,13 @@
-import { Page, expect } from "@playwright/test"
+import { Locator, Page, expect } from "@playwright/test"
 import { TaskModel } from "../../../task.model"
 
 export class TasksPage {
     readonly page: Page
+    readonly inputTaskName: Locator
 
     constructor(page: Page) {
         this.page = page
+        this.inputTaskName = page.locator('input[class*="InputNewTask"]')
     }
 
     async goTo() {
@@ -13,16 +15,14 @@ export class TasksPage {
     }
 
     async createTaskUsingButton(task: TaskModel) {
-        const inputTaskName = this.page.locator('input[class*="InputNewTask"]')
-        await inputTaskName.fill(task.name)
+        await this.inputTaskName.fill(task.name)
 
         await this.page.click('css=button >> text=Create')
     }
 
     async createTaskUsingEnter(task: TaskModel) {
-        const inputTaskName = this.page.locator('input[class*="InputNewTask"]')
-        await inputTaskName.fill(task.name)
-        await inputTaskName.press('Enter')
+        await this.inputTaskName.fill(task.name)
+        await this.inputTaskName.press('Enter')
     }
 
     async shouldHaveText(taskName: string) {
