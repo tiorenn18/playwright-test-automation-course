@@ -18,7 +18,7 @@ test('deve poder cadastrar uma nova tarefa utilizando Enter', async ({ page, req
     await inputTaskName.press('Enter')
 
     // Então esta tarefa deve ser exibida  na lista
-    const taskTarget = page.locator(`css=.task-item p >> text=${taskName}`) // Utilizando um
+    const taskTarget = page.locator(`css=.task-item p >> text=${taskName}`)
     await expect(taskTarget).toBeVisible()
 
 });
