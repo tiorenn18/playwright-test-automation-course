@@ -50,7 +50,7 @@ test('deve poder deletar uma tarefa', async ({ page, request }) => {
     await tasksPage.goTo()
     await tasksPage.createTaskUsingButton(task)
     await tasksPage.shouldHaveText(task.name)
-    await tasksPage.validateDeleteTaskByButton()
+    await tasksPage.validateDeleteTaskByButton(task.name)
 });
 
 test('não deve permitir tarefa duplicada', async ({ page, request }) => {

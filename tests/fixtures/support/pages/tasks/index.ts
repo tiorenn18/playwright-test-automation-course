@@ -40,8 +40,10 @@ export class TasksPage {
         await checkBoxTask.last().click()
     }
 
-    async validateDeleteTaskByButton() {
-        const deleteButtonsTask = this.page.locator('button[class*="_listItemDeleteButton"]')
-        await deleteButtonsTask.last().click()
+    async validateDeleteTaskByButton(taskName: string) {
+        const taskItem = this.page.locator('div[class*="_listItem"]').filter({ hasText: taskName })
+        await taskItem.locator('button[class*="_listItemDeleteButton"]').click()
+
+        await expect(this.page.getByText('Teste validado: botão de deletar uma tarefa funcionando')).not.toBeVisible()
     }
 }
