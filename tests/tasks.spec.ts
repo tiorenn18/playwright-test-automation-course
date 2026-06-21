@@ -3,10 +3,6 @@ import { faker } from '@faker-js/faker';
 import { taskModel } from './fixtures/Task.model';
 
 test('deve poder cadastrar uma nova tarefa utilizando Enter', async ({ page, request }) => {
-
-    // GArking ilustrativo
-
-    // Dado que eu tenha uma nova tarefa
     const taskJson: taskModel = {
         name: 'Teste validado: cadastro de tarefa via tecla Enter',
         is_done: false
@@ -14,15 +10,12 @@ test('deve poder cadastrar uma nova tarefa utilizando Enter', async ({ page, req
 
     await request.delete('http://localhost:3333/helper/tasks/' + taskJson.name)
 
-    // E que estou na pagina de cadastro                
     await page.goto('http://localhost:8080')
 
-    // Quando faco o cadastro desta tarefa
     const inputTaskName = page.locator('input[class*="InputNewTask"]')
     await inputTaskName.fill(taskJson.name)
     await inputTaskName.press('Enter')
 
-    // Então esta tarefa deve ser exibida  na lista
     const taskTarget = page.locator(`css=.task-item p >> text=${taskJson.name}`)
     await expect(taskTarget).toBeVisible()
 });
