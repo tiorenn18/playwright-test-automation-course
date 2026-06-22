@@ -11,7 +11,7 @@ export class TasksPage {
     }
 
     async goTo() {
-        await this.page.goto('http://localhost:8080')
+        await this.page.goto('/') // BaseURL: http://localhost:8080
     }
 
     async createTaskUsingButton(task: TaskModel) {
