@@ -11,7 +11,7 @@ export class TasksPage {
     }
 
     async goTo() {
-        await this.page.goto('/') // BaseURL: http://localhost:8080
+        await this.page.goto('/') // Adicionado um BaseURL: http://localhost:8080
     }
 
     async createTaskUsingButton(task: TaskModel) {
@@ -48,7 +48,6 @@ export class TasksPage {
     async validateDeleteTaskByButton(taskName: string) {
         const target = this.page.locator(`//p[text()="${taskName}"]/..//button[contains(@class,"Delete")]`)
         await target.click()
-
         await this.shouldNotExist(taskName)
     }
     

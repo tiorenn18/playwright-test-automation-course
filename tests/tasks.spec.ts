@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type TestInfo } from '@playwright/test';
 
 import { TaskModel } from './fixtures/task.model';
 import { deleteByTaskHelper, postTask } from './fixtures/support/helpers';
@@ -12,9 +12,16 @@ test.beforeEach(({ page }) => {
     tasksPage = new TasksPage(page)
 })
 
+function taskForProject(task: TaskModel, testInfo: TestInfo): TaskModel {
+    return {
+        ...task,
+        name: `${task.name} [${testInfo.project.name}]`
+    }
+}
+
 test.describe('cadastro', () => {
-    test('deve poder cadastrar uma nova tarefa utilizando Enter', async ({ request }) => {
-        const task = data.createTaskWithEnterValidation as TaskModel
+    test('deve poder cadastrar uma nova tarefa utilizando Enter', async ({ request }, testInfo) => {
+        const task = taskForProject(data.createTaskWithEnterValidation as TaskModel, testInfo)
 
         await deleteByTaskHelper(request, task.name)
         await tasksPage.goTo()
@@ -23,8 +30,8 @@ test.describe('cadastro', () => {
         await tasksPage.shouldHaveText(task.name)
     });
 
-    test('deve poder cadastrar uma nova tarefa utilizando o botão', async ({ request }) => {
-        const task = data.createTaskWithButtonValidation as TaskModel
+    test('deve poder cadastrar uma nova tarefa utilizando o botao', async ({ request }, testInfo) => {
+        const task = taskForProject(data.createTaskWithButtonValidation as TaskModel, testInfo)
 
         await deleteByTaskHelper(request, task.name)
 
@@ -33,8 +40,8 @@ test.describe('cadastro', () => {
         await tasksPage.shouldHaveText(task.name)
     });
 
-    test('não deve permitir tarefa duplicada', async ({ request }) => {
-        const task = data.duplicate as TaskModel
+    test('nao deve permitir tarefa duplicada', async ({ request }, testInfo) => {
+        const task = taskForProject(data.duplicate as TaskModel, testInfo)
 
         await deleteByTaskHelper(request, task.name)
         await postTask(request, task)
@@ -45,7 +52,7 @@ test.describe('cadastro', () => {
         await tasksPage.alertHaveText('Task already exists!')
     });
 
-    test('campo Obrigatório', async () => {
+    test('campo Obrigatorio', async () => {
         const task = data.required as TaskModel
 
         await tasksPage.goTo()
@@ -56,9 +63,9 @@ test.describe('cadastro', () => {
     })
 })
 
-test.describe('atualizacão', () => {
-    test('deve concluir uma tarefa', async ({ page, request }) => {
-        const task = data.completeTaskCheckboxValidation as TaskModel
+test.describe('atualizacao', () => {
+    test('deve concluir uma tarefa', async ({ request }, testInfo) => {
+        const task = taskForProject(data.completeTaskCheckboxValidation as TaskModel, testInfo)
 
         await deleteByTaskHelper(request, task.name)
         await postTask(request, task)
@@ -69,9 +76,9 @@ test.describe('atualizacão', () => {
     });
 })
 
-test.describe('exclusão', () => {
-    test('deve poder deletar uma tarefa', async ({ request }) => {
-        const task = data.deleteTaskUsingButtonValidation as TaskModel
+test.describe('exclusao', () => {
+    test('deve poder deletar uma tarefa', async ({ request }, testInfo) => {
+        const task = taskForProject(data.deleteTaskUsingButtonValidation as TaskModel, testInfo)
 
         await deleteByTaskHelper(request, task.name)
         await postTask(request, task)

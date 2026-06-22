@@ -6,10 +6,10 @@ require('dotenv').config()
 const BASE_API = process.env.BASE_API //Custom Url com dotenv
 
 export async function deleteByTaskHelper(request: APIRequestContext, taskName: string) {
-    await request.delete(`${BASE_API}/helper/tasks/${taskName}`)
+    await request.delete(`${BASE_API}/helper/tasks/${encodeURIComponent(taskName)}`)
 }
 
 export async function postTask(request: APIRequestContext, task: TaskModel) {
     const newTask = await request.post(`${BASE_API}/tasks/`, { data: task })
-    expect(newTask.ok).toBeTruthy()
+    expect(newTask.ok()).toBeTruthy()
 }
