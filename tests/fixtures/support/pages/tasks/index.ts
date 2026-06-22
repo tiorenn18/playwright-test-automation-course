@@ -16,7 +16,6 @@ export class TasksPage {
 
     async createTaskUsingButton(task: TaskModel) {
         await this.inputTaskName.fill(task.name)
-
         await this.page.click('css=button >> text=Create')
     }
 
@@ -26,8 +25,8 @@ export class TasksPage {
     }
 
     async shouldHaveText(taskName: string) {
-        const taskTarget = this.page.locator(`css=.task-item p >> text=${taskName}`)
-        await expect(taskTarget).toBeVisible()
+        const target = this.page.locator(`css=.task-item p >> text=${taskName}`)
+        await expect(target).toBeVisible()
     }
 
     async alertHaveText(text: string) {
@@ -35,15 +34,21 @@ export class TasksPage {
         await expect(target).toHaveText(text)
     }
 
-    async validateTaskCheckbox() {
-        const checkBoxTask = this.page.locator('button[class*="_listItemToggle"]')
-        await checkBoxTask.last().click()
+    async validateTaskCheckbox(taskName: string) {
+        const target = this.page.locator(`//p[text()="${taskName}"]/..//button[contains(@class,"Toggle")]`)
+        await target.click()
+        await this.shouldBeDone(taskName)
+    }
+    
+    async shouldBeDone(taskName: string){
+        const target = this.page.getByText(taskName)
+        await expect(target).toHaveCSS('text-decoration-line', 'line-through')
     }
 
     async validateDeleteTaskByButton(taskName: string) {
-        const taskItem = this.page.locator('div[class*="_listItem"]').filter({ hasText: taskName })
-        await taskItem.locator('button[class*="_listItemDeleteButton"]').click()
+        const target = this.page.locator(`//p[text()="${taskName}"]/..//button[contains(@class,"Delete")]`)
+        await target.click()
 
-        await expect(this.page.getByText('Teste validado: botão de deletar uma tarefa funcionando')).not.toBeVisible()
+        await expect(this.page.getByText(taskName)).not.toBeVisible()
     }
 }

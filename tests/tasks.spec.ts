@@ -11,6 +11,7 @@ test('deve poder cadastrar uma nova tarefa utilizando Enter', async ({ page, req
 
     await deleteByTaskHelper(request, task.name)
     await tasksPage.goTo()
+
     await tasksPage.createTaskUsingEnter(task)
     await tasksPage.shouldHaveText(task.name)
 });
@@ -27,17 +28,17 @@ test('deve poder cadastrar uma nova tarefa utilizando o botão', async ({ page, 
     await tasksPage.shouldHaveText(task.name)
 });
 
-test('deve poder riscar uma tarefa', async ({ page, request }) => {
+test('deve concluir uma tarefa', async ({ page, request }) => {
     const task = data.completeTaskCheckboxValidation as TaskModel
 
     const tasksPage: TasksPage = new TasksPage(page)
 
     await deleteByTaskHelper(request, task.name)
+    await postTask(request, task)
 
     await tasksPage.goTo()
-    await tasksPage.createTaskUsingButton(task)
     await tasksPage.shouldHaveText(task.name)
-    await tasksPage.validateTaskCheckbox()
+    await tasksPage.validateTaskCheckbox(task.name)
 });
 
 test('deve poder deletar uma tarefa', async ({ page, request }) => {
@@ -46,9 +47,10 @@ test('deve poder deletar uma tarefa', async ({ page, request }) => {
     const tasksPage: TasksPage = new TasksPage(page)
 
     await deleteByTaskHelper(request, task.name)
+    await postTask(request, task)
 
     await tasksPage.goTo()
-    await tasksPage.createTaskUsingButton(task)
+
     await tasksPage.shouldHaveText(task.name)
     await tasksPage.validateDeleteTaskByButton(task.name)
 });
