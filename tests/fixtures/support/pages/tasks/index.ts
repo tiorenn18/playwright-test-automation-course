@@ -49,6 +49,11 @@ export class TasksPage {
         const target = this.page.locator(`//p[text()="${taskName}"]/..//button[contains(@class,"Delete")]`)
         await target.click()
 
-        await expect(this.page.getByText(taskName)).not.toBeVisible()
+        await this.shouldNotExist(taskName)
+    }
+    
+    async shouldNotExist(taskName: string){
+        const target = this.page.locator(`css=.task-item p >> text=${taskName}`)
+        await expect(target).not.toBeVisible()
     }
 }

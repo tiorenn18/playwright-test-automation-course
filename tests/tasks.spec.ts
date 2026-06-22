@@ -68,7 +68,9 @@ test.describe('atualizacão', () => {
         await tasksPage.shouldHaveText(task.name)
         await tasksPage.validateTaskCheckbox(task.name)
     });
+})
 
+test.describe('exclusão', () => {
     test('deve poder deletar uma tarefa', async ({ page, request }) => {
         const task = data.deleteTaskUsingButtonValidation as TaskModel
 
